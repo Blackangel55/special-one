@@ -9,15 +9,12 @@ Open `index.html` and edit only the `CONFIG` block near the bottom:
 const CONFIG = {
   name: "Bestie",                    // best friend's name
   birthday: "2026-11-20T00:00:00",   // YYYY-MM-DDTHH:MM:SS
-  from: "Sreehari"
+  from: "Hari"
 };
 ```
 
-- **Photos:** put your photos in `photos/` as `1.jpg`, `2.jpg`… and
-  change the 4 `<img src="https://picsum.photos/...">` lines to
-  `photos/1.jpg` etc. Or send the photos to Zia and I'll swap them.
-- **Timeline / reasons:** edit the text inside the Timeline and
-  Reasons sections in `index.html` — they're plain text.
+- **Reasons:** edit the text inside the Reasons section in
+  `index.html` — it's plain text.
 
 ## 2. Deploy on Render (free)
 Option A — from GitHub (recommended):
@@ -50,12 +47,14 @@ Environment: **Docker**, Port: leave blank (uses `$PORT`).
 - Animated gradient + floating balloons + auto confetti
 - Live countdown to the birthday date in CONFIG
 - Interactive cake: tap candles to blow them out
-- Photo gallery, reasons grid, story timeline
-- Wish wall (saves in the visitor's browser) + Happy Birthday melody button
+- Reasons grid
+- Happy Birthday song that autoplays on load and loops
+  (browsers may block sound until the first tap — then it starts;
+  the button in the header turns it on/off)
 - Mobile-friendly, single file
 
 ## Files
 - `index.html` — the whole site
 - `render.yaml` — tells Render it's a static site
 - `Dockerfile` + `nginx.conf.template` — nginx container, `$PORT`-aware
-- `photos/` — put real photos here
+- `photos/` — kept for the Docker build (`.gitkeep` only); no longer shown on the page

@@ -41,29 +41,11 @@
   .btn.purple{background:var(--purple);box-shadow:0 6px 0 #5a3fd6}
   .center{text-align:center}
   .btnrow{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
-  /* gallery */
-  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-  .gallery figure{border-radius:20px;overflow:hidden;background:#ffe9f5;box-shadow:0 6px 0 rgba(0,0,0,.1)}
-  .gallery img{width:100%;height:220px;object-fit:cover;display:block;transition:.3s}
-  .gallery img:hover{transform:scale(1.05)}
-  .gallery figcaption{padding:12px 14px;font-weight:900}
-  .gallery figcaption small{display:block;font-weight:700;opacity:.65}
   /* reasons */
   .reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
   .reason{border-radius:20px;padding:20px;font-weight:700}
   .reason b{font-family:'Fredoka',sans-serif;font-size:20px;display:block;margin-bottom:6px}
   .reason:nth-child(1){background:#fff3a3}.reason:nth-child(2){background:#ffd6ec}.reason:nth-child(3){background:#d9ccff}.reason:nth-child(4){background:#b8f5ff}.reason:nth-child(5){background:#c8ffe9}.reason:nth-child(6){background:#ffe0c2}
-  /* timeline */
-  .timeline{border-left:4px dashed var(--pink);margin-left:10px;padding-left:22px}
-  .timeline div{margin-bottom:18px;position:relative}
-  .timeline div::before{content:"🎈";position:absolute;left:-38px;top:-2px;background:#fff;border-radius:50%;width:32px;height:32px;display:grid;place-items:center;font-size:16px}
-  .timeline b{font-family:'Fredoka',sans-serif}
-  /* wishes */
-  #wishForm{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
-  #wishForm input{flex:1;min-width:220px;padding:14px 16px;border:3px solid #eee;border-radius:999px;font:inherit;font-weight:700;outline:none}
-  #wishForm input:focus{border-color:var(--pink)}
-  #wishes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-  .wish{background:#fffbe6;border:2px solid #ffe259;border-radius:18px;padding:16px;font-weight:700}
   footer{text-align:center;color:#fff;font-weight:900;padding:20px;text-shadow:0 2px 0 rgba(0,0,0,.2)}
   .note{background:#fffbe6;border:2px dashed #ffb800;border-radius:16px;padding:14px;font-size:14px;font-weight:700;margin-top:14px}
   @media(max-width:560px){.card{padding:20px}.cake{font-size:84px}}
@@ -79,8 +61,9 @@
     <p id="heroSub">To my amazing best friend — have the best day ever! 💛</p>
     <div class="btnrow">
       <button class="btn yellow" onclick="burst()">🎊 Burst Confetti</button>
-      <button class="btn" onclick="playSong()">🎵 Play Birthday Song</button>
+      <button class="btn" id="songBtn" onclick="toggleSong()">🎵 Birthday Song: On</button>
     </div>
+    <p id="musicHint" style="font-size:15px;margin-top:10px;opacity:.9">🔊 Music starts with the page — if your browser blocks it, tap anywhere once and it will start.</p>
   </header>
 
   <section class="card">
@@ -104,17 +87,6 @@
     <div class="btnrow"><button class="btn purple" onclick="relight()">🔥 Light Them Again</button></div>
   </section>
 
-  <section class="card">
-    <h2>📸 Our Favourite Moments</h2>
-    <p class="sub">Replace these with your real photos — put them in the <b>photos/</b> folder</p>
-    <div class="gallery">
-      <figure><img src="https://picsum.photos/seed/bday1/600/400" alt="Memory 1"><figcaption>Best memories 🎈<small>The laughter never stops</small></figcaption></figure>
-      <figure><img src="https://picsum.photos/seed/bday2/600/400" alt="Memory 2"><figcaption>Partners in crime 😎<small>Through every crazy plan</small></figcaption></figure>
-      <figure><img src="https://picsum.photos/seed/bday3/600/400" alt="Memory 3"><figcaption>Golden days ✨<small>Some moments are priceless</small></figcaption></figure>
-      <figure><img src="https://picsum.photos/seed/bday4/600/400" alt="Memory 4"><figcaption>Always together 💛<small>Best friends forever</small></figcaption></figure>
-    </div>
-    <div class="note">💡 To use your own photos: save them as <b>photos/1.jpg, photos/2.jpg…</b> and change the <b>src</b> in index.html — or just send them to me and I'll swap them in.</div>
-  </section>
 
   <section class="card">
     <h2>💛 Why You're The Best</h2>
@@ -128,27 +100,7 @@
     </div>
   </section>
 
-  <section class="card">
-    <h2>🗓️ Our Story So Far</h2>
-    <div class="timeline">
-      <div><b>The day we met</b><br>It started with a hello — and never stopped.</div>
-      <div><b>Inside jokes era</b><br>Too many jokes no one else understands.</div>
-      <div><b>Through thick &amp; thin</b><br>Exams, late nights, big dreams — together.</div>
-      <div><b>Today — your birthday!</b><br>The best chapter yet. Happy birthday, bestie!</div>
-    </div>
-    <p class="center" style="margin-top:10px;font-weight:700;opacity:.7">Edit these lines in index.html to add your real dates &amp; stories.</p>
-  </section>
 
-  <section class="card">
-    <h2>💌 Leave a Birthday Wish</h2>
-    <p class="sub">Type a wish — it appears below instantly!</p>
-    <form id="wishForm" onsubmit="addWish(event)">
-      <input id="wishName" placeholder="Your name" required>
-      <input id="wishText" placeholder="Your birthday wish..." required>
-      <button class="btn" type="submit">Send Wish 💖</button>
-    </form>
-    <div id="wishes"></div>
-  </section>
 
   <footer id="footer">Made with 💛 by Sreehari — for the best friend in the world</footer>
 </div>
@@ -223,29 +175,42 @@ candlesEl.onclick=()=>{ if(lit>0){lit--; renderCandles();} };
 function relight(){ lit=5; renderCandles(); }
 renderCandles();
 
-/* Wishes (saved in this browser only) */
-const seed=[{n:"Sreehari",t:"Happy birthday! May this year bring you everything you wished for. 🎂"},
-            {n:"Your Bestie Squad",t:"Stay awesome, stay smiling. Best friends forever! 💛"}];
-let wishes=[]; try{wishes=JSON.parse(localStorage.getItem('bday-wishes'))||seed}catch(e){wishes=seed}
-function renderWishes(){
-  document.getElementById('wishes').innerHTML=wishes.map(w=>`<div class="wish">“${w.t}”<br><small>— ${w.n}</small></div>`).join('');
-}
-function addWish(e){ e.preventDefault();
-  const n=document.getElementById('wishName').value.trim(), t=document.getElementById('wishText').value.trim();
-  if(!n||!t) return; wishes.unshift({n,t}); localStorage.setItem('bday-wishes',JSON.stringify(wishes));
-  renderWishes(); e.target.reset(); burst(80);
-}
-renderWishes();
-
-/* Happy Birthday melody (WebAudio, no file needed) */
-function playSong(){
-  const notes=[[523,.4],[523,.4],[587,.8],[523,.8],[698,.8],[659,1.6],[523,.4],[523,.4],[587,.8],[523,.8],[784,.8],[698,1.6]];
-  const ac=new (window.AudioContext||window.webkitAudioContext)(); let t=ac.currentTime;
-  notes.forEach(([f,d])=>{ const o=ac.createOscillator(), g=ac.createGain();
-    o.frequency.value=f; o.type='triangle'; o.connect(g); g.connect(ac.destination);
+/* Happy Birthday melody (WebAudio, no file needed) — autoplays on load, loops */
+const SONG_NOTES=[[523,.4],[523,.4],[587,.8],[523,.8],[698,.8],[659,1.6],[523,.4],[523,.4],[587,.8],[523,.8],[784,.8],[698,1.6]];
+const SONG_TOTAL=SONG_NOTES.reduce((a,[,d])=>a+d,0);
+let songCtx=null, songTimer=null, songOn=false, songStarted=false;
+function scheduleSong(){
+  if(!songCtx || !songOn) return;
+  let t=songCtx.currentTime+0.05;
+  SONG_NOTES.forEach(([f,d])=>{ const o=songCtx.createOscillator(), g=songCtx.createGain();
+    o.frequency.value=f; o.type='triangle'; o.connect(g); g.connect(songCtx.destination);
     g.gain.setValueAtTime(.18,t); g.gain.exponentialRampToValueAtTime(.001,t+d);
     o.start(t); o.stop(t+d); t+=d; });
+  songTimer=setTimeout(scheduleSong, (SONG_TOTAL+1)*1000);
 }
+function startSong(){
+  if(songOn) return;
+  try{
+    if(!songCtx) songCtx=new (window.AudioContext||window.webkitAudioContext)();
+    if(songCtx.state==='suspended') songCtx.resume();
+    songOn=true; songStarted=true;
+    const hint=document.getElementById('musicHint'); if(hint) hint.style.display='none';
+    const btn=document.getElementById('songBtn'); if(btn) btn.textContent='🎵 Birthday Song: On';
+    scheduleSong();
+  }catch(e){ /* audio unavailable in this browser */ }
+}
+function stopSong(){
+  songOn=false; if(songTimer){clearTimeout(songTimer); songTimer=null;}
+  if(songCtx) songCtx.suspend();
+  const btn=document.getElementById('songBtn'); if(btn) btn.textContent='🔇 Birthday Song: Off';
+}
+function toggleSong(){ songOn ? stopSong() : startSong(); }
+function playSong(){ startSong(); } /* kept for compatibility */
+/* Autoplay on load. Browsers block sound until the visitor interacts,
+   so if it is blocked we start on their first tap / click / keypress. */
+window.addEventListener('load', ()=>{ setTimeout(startSong, 400); });
+['pointerdown','touchstart','keydown','click'].forEach(ev=>
+  window.addEventListener(ev, ()=>{ if(!songStarted) startSong(); else if(songCtx && songCtx.state==='suspended' && songOn) songCtx.resume(); }, {once:false}));
 </script>
 </body>
 </html>
