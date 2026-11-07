@@ -68,7 +68,7 @@
   <header>
     <span class="pill">🎉 IT'S YOUR DAY! 🎉</span>
     <h1 id="heroTitle">Happy<br>Birthday!</h1>
-    <p id="heroSub">To my amazing best friend — have the best day ever! 💛</p>
+    <p id="heroSub">To my amazing — have the best day ever! 💛</p>
     <div class="btnrow">
       <button class="btn yellow" onclick="burst()">🎊 Burst Confetti</button>
     </div>
@@ -107,7 +107,7 @@
 
 
 
-  <footer id="footer">Made with 💛 by Sreehari — for the best friend in the world</footer>
+  <footer id="footer">Made with ❤️ by Sreehari </footer>
 </div>
 
 <script>
@@ -125,9 +125,9 @@ document.title = `Happy Birthday ${CONFIG.name}! 🎉`;
 document.getElementById('heroTitle').innerHTML =
   `Happy<br>Birthday<br><span style="color:#ffcf3f">${CONFIG.name}!</span>`;
 document.getElementById('heroSub').textContent =
-  `To my amazing best friend ${CONFIG.name} — have the best day ever! 💛`;
+  `To my amazing best friend ${CONFIG.name} — have the best day ever! ❤️`;
 document.getElementById('footer').textContent =
-  `Made with 💛 by ${CONFIG.from} — for the best friend in the world`;
+  `Made with ❤️ by ${CONFIG.from} — for the best friend in the world`;
 const bday = new Date(CONFIG.birthday);
 document.getElementById('dateLine').textContent =
   "🎂 Birthday: " + bday.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
