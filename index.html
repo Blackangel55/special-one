@@ -52,6 +52,8 @@
 </style>
 </head>
 <body>
+ <audio id="song" src="song.mp3" autoplay loop preload="auto"></audio>
+
 <canvas id="confetti"></canvas>
 
 <div class="wrap">
@@ -61,7 +63,6 @@
     <p id="heroSub">To my amazing best friend — have the best day ever! 💛</p>
     <div class="btnrow">
       <button class="btn yellow" onclick="burst()">🎊 Burst Confetti</button>
-      <button class="btn" id="songBtn" onclick="toggleSong()">🎵 Birthday Song: On</button>
     </div>
     <p id="musicHint" style="font-size:15px;margin-top:10px;opacity:.9">🔊 Music starts with the page — if your browser blocks it, tap anywhere once and it will start.</p>
   </header>
@@ -175,42 +176,11 @@ candlesEl.onclick=()=>{ if(lit>0){lit--; renderCandles();} };
 function relight(){ lit=5; renderCandles(); }
 renderCandles();
 
-/* Happy Birthday melody (WebAudio, no file needed) — autoplays on load, loops */
-const SONG_NOTES=[[523,.4],[523,.4],[587,.8],[523,.8],[698,.8],[659,1.6],[523,.4],[523,.4],[587,.8],[523,.8],[784,.8],[698,1.6]];
-const SONG_TOTAL=SONG_NOTES.reduce((a,[,d])=>a+d,0);
-let songCtx=null, songTimer=null, songOn=false, songStarted=false;
-function scheduleSong(){
-  if(!songCtx || !songOn) return;
-  let t=songCtx.currentTime+0.05;
-  SONG_NOTES.forEach(([f,d])=>{ const o=songCtx.createOscillator(), g=songCtx.createGain();
-    o.frequency.value=f; o.type='triangle'; o.connect(g); g.connect(songCtx.destination);
-    g.gain.setValueAtTime(.18,t); g.gain.exponentialRampToValueAtTime(.001,t+d);
-    o.start(t); o.stop(t+d); t+=d; });
-  songTimer=setTimeout(scheduleSong, (SONG_TOTAL+1)*1000);
-}
-function startSong(){
-  if(songOn) return;
-  try{
-    if(!songCtx) songCtx=new (window.AudioContext||window.webkitAudioContext)();
-    if(songCtx.state==='suspended') songCtx.resume();
-    songOn=true; songStarted=true;
-    const hint=document.getElementById('musicHint'); if(hint) hint.style.display='none';
-    const btn=document.getElementById('songBtn'); if(btn) btn.textContent='🎵 Birthday Song: On';
-    scheduleSong();
-  }catch(e){ /* audio unavailable in this browser */ }
-}
-function stopSong(){
-  songOn=false; if(songTimer){clearTimeout(songTimer); songTimer=null;}
-  if(songCtx) songCtx.suspend();
-  const btn=document.getElementById('songBtn'); if(btn) btn.textContent='🔇 Birthday Song: Off';
-}
-function toggleSong(){ songOn ? stopSong() : startSong(); }
-function playSong(){ startSong(); } /* kept for compatibility */
-/* Autoplay on load. Browsers block sound until the visitor interacts,
-   so if it is blocked we start on their first tap / click / keypress. */
-window.addEventListener('load', ()=>{ setTimeout(startSong, 400); });
-['pointerdown','touchstart','keydown','click'].forEach(ev=>
-  window.addEventListener(ev, ()=>{ if(!songStarted) startSong(); else if(songCtx && songCtx.state==='suspended' && songOn) songCtx.resume(); }, {once:false}));
+const audio = document.getElementById('song');
+window.addEventListener('load', () => { audio.play().catch(() => {}); });
+['pointerdown','touchstart','keydown','click'].forEach(ev =>
+  window.addEventListener(ev, () => { audio.play().catch(() => {}); }, {once:true}));
+
 </script>
 </body>
 </html>
