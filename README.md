@@ -49,7 +49,8 @@ Environment: **Docker**, Port: leave blank (uses `$PORT`).
   it says "Opens in X days", on the day it opens with confetti
 - Interactive cake: tap candles to blow them out
 - "Happy Birthday My Love" message
-- Sections pop in one after another
+- One section at a time: tap the card (or Next) to go on — the
+  old one vanishes and the next pops in, with dots showing 1/2/3
 - Custom song (`song.m4a`) that tries to autoplay on load and
   loops. Browsers block audible autoplay until the first tap /
   click / keypress, so it also starts on that first interaction

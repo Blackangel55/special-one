@@ -30,7 +30,14 @@
   /* sections pop in one after another */
   @keyframes popIn{from{opacity:0;transform:translateY(28px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
   header{animation:popIn .7s cubic-bezier(.34,1.56,.64,1) both}
-  .card{animation:popIn .7s cubic-bezier(.34,1.56,.64,1) both}
+  .card{display:none}
+  .card.active{display:block;animation:popIn .7s cubic-bezier(.34,1.56,.64,1) both}
+  .card.vanish{animation:popOut .3s ease both}
+  @keyframes popOut{to{opacity:0;transform:translateY(-20px) scale(.9)}}
+  .dots{display:flex;gap:8px;justify-content:center;margin:6px 0 2px}
+  .dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.55)}
+  .dot.on{background:#ffcf3f;transform:scale(1.25)}
+  .tap-hint{text-align:center;color:#fff;font-weight:900;text-shadow:0 2px 0 rgba(0,0,0,.2);margin-bottom:4px}
   /* Happy Birthday My Love */
   .love-title{font-family:'Fredoka',sans-serif;font-size:clamp(36px,7vw,56px);line-height:1.05;text-align:center}
   .love-box{max-width:640px;margin:18px auto 0;text-align:left;background:rgba(255,255,255,.55);border-radius:24px;padding:24px;border:2px solid rgba(255,255,255,.7)}
@@ -67,12 +74,15 @@
     </div>
     <p id="musicHint" style="font-size:15px;margin-top:10px;opacity:.9">Song plays automatically — if your browser blocks it, tap the 🔊 button or tap anywhere once.</p>
   </header>
+  <div class="dots" id="dots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+  <p id="tapHint" class="tap-hint">👆 Tap the card to continue</p>
 
   <section class="card">
     <h2 id="openTitle">🎁 Opening Soon...</h2>
     <p class="sub" id="countSub">Opening on the birthday...</p>
     <p class="center" style="margin-top:16px;font-weight:900;font-size:22px" id="openDays"></p>
     <p class="center" style="margin-top:8px;font-weight:900" id="dateLine"></p>
+    <div class="btnrow"><button class="btn" onclick="nextSection(event)">Next ➜</button></div>
   </section>
 
   <section class="card center">
@@ -82,6 +92,7 @@
     <div class="cake">🎂</div>
     <p id="wishMsg" style="font-weight:900;margin-top:10px">5 candles still burning...</p>
     <div class="btnrow"><button class="btn purple" onclick="relight()">🔥 Light Them Again</button></div>
+    <div class="btnrow"><button class="btn" onclick="nextSection(event)">Next ➜</button></div>
   </section>
 
 
@@ -91,6 +102,7 @@
       <p>On your special day, I just want to say that you are one of the most beautiful blessings in my life. Your smile makes my world softer, your presence makes my heart peaceful, and your love makes every day feel special.</p>
       <p>May God bless you with endless happiness, health, success, love, and every dream your heart silently prays for. I am so lucky to have you. ❤️</p>
     </div>
+    <div class="btnrow"><button class="btn" onclick="showSection(0)">↺ Start Again</button></div>
   </section>
 
 
@@ -139,10 +151,28 @@ function updateOpening(){
 }
 updateOpening(); setInterval(updateOpening, 60000);
 
-/* Sections pop in one after another */
-document.querySelectorAll('.wrap > header, .wrap > section.card').forEach((el, i) => {
-  el.style.animationDelay = (i * 0.35) + 's';
-});
+/* One section at a time: tap the card (or Next) to go on, it vanishes
+   and the next one pops in. Taps on the candles / buttons don't advance. */
+const cards = [...document.querySelectorAll('.wrap > section.card')];
+let current = 0;
+function showSection(i){
+  current = i;
+  cards.forEach((c, j) => { c.classList.toggle('active', j === i); c.classList.remove('vanish'); });
+  document.querySelectorAll('#dots .dot').forEach((d, j) => d.classList.toggle('on', j === i));
+  document.getElementById('tapHint').style.display = (i === cards.length - 1) ? 'none' : 'block';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+function nextSection(e){
+  if(e) e.stopPropagation();
+  if(current >= cards.length - 1) return;
+  cards[current].classList.add('vanish');
+  setTimeout(() => showSection(current + 1), 300);
+}
+cards.forEach(c => c.addEventListener('click', e => {
+  if(e.target.closest('button, .candles, .cake, a, input')) return;
+  nextSection();
+}));
+showSection(0);
 
 /* Confetti */
 const cv=document.getElementById('confetti'), ctx=cv.getContext('2d');
