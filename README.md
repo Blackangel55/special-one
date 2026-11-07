@@ -13,8 +13,8 @@ const CONFIG = {
 };
 ```
 
-- **Reasons:** edit the text inside the Reasons section in
-  `index.html` — it's plain text.
+- **Love message:** edit the text inside the "Happy Birthday My
+  Love" section in `index.html` — it's plain text.
 
 ## 2. Deploy on Render (free)
 Option A — from GitHub (recommended):
@@ -45,10 +45,11 @@ Environment: **Docker**, Port: leave blank (uses `$PORT`).
 
 ## What's inside
 - Animated gradient + floating balloons + auto confetti
-- Loading bar to the birthday date in CONFIG — fills over the
-  30 days before it, hits 100% and opens on the birthday day
+- Opening card for the birthday date in CONFIG — before the day
+  it says "Opens in X days", on the day it opens with confetti
 - Interactive cake: tap candles to blow them out
-- Reasons grid
+- "Happy Birthday My Love" message
+- Sections pop in one after another
 - Custom song (`song.m4a`) that tries to autoplay on load and
   loops. Browsers block audible autoplay until the first tap /
   click / keypress, so it also starts on that first interaction

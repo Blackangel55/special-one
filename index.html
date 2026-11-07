@@ -27,11 +27,15 @@
   .card{background:#fff;border-radius:28px;padding:28px;box-shadow:0 12px 0 rgba(0,0,0,.12);margin:26px 0}
   .card h2{font-family:'Fredoka',sans-serif;font-size:32px;text-align:center;margin-bottom:6px}
   .card .sub{text-align:center;opacity:.75;font-weight:700;margin-bottom:18px}
-  /* loading bar to the birthday */
-  .loadbar{position:relative;height:34px;background:#f1e8ff;border:3px solid #7c5cff;border-radius:999px;overflow:hidden}
-  .loadfill{height:100%;width:0%;border-radius:999px;background:repeating-linear-gradient(-45deg,#ff5da2 0 16px,#ffcf3f 16px 32px,#7c5cff 32px 48px,#00c2ff 48px 64px);background-size:90px 100%;animation:stripes 1s linear infinite;transition:width 1s ease}
-  @keyframes stripes{to{background-position:90px 0}}
-  .loadpct{position:absolute;inset:0;display:grid;place-items:center;font-family:'Fredoka',sans-serif;font-weight:700;font-size:18px;color:#2b1055;text-shadow:0 1px 0 #fff}
+  /* sections pop in one after another */
+  @keyframes popIn{from{opacity:0;transform:translateY(28px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+  header{animation:popIn .7s cubic-bezier(.34,1.56,.64,1) both}
+  .card{animation:popIn .7s cubic-bezier(.34,1.56,.64,1) both}
+  /* Happy Birthday My Love */
+  .love-title{font-family:'Fredoka',sans-serif;font-size:clamp(36px,7vw,56px);line-height:1.05;text-align:center}
+  .love-box{max-width:640px;margin:18px auto 0;text-align:left;background:rgba(255,255,255,.55);border-radius:24px;padding:24px;border:2px solid rgba(255,255,255,.7)}
+  .love-box p{font-size:18px;line-height:1.6;font-weight:700}
+  .love-box p + p{margin-top:16px}
   /* cake */
   .cake{text-align:center;font-size:110px;line-height:1;cursor:pointer;user-select:none}
   .candles{font-size:42px;letter-spacing:6px;cursor:pointer}
@@ -42,11 +46,6 @@
   .btn.purple{background:var(--purple);box-shadow:0 6px 0 #5a3fd6}
   .center{text-align:center}
   .btnrow{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
-  /* reasons */
-  .reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-  .reason{border-radius:20px;padding:20px;font-weight:700}
-  .reason b{font-family:'Fredoka',sans-serif;font-size:20px;display:block;margin-bottom:6px}
-  .reason:nth-child(1){background:#fff3a3}.reason:nth-child(2){background:#ffd6ec}.reason:nth-child(3){background:#d9ccff}.reason:nth-child(4){background:#b8f5ff}.reason:nth-child(5){background:#c8ffe9}.reason:nth-child(6){background:#ffe0c2}
   footer{text-align:center;color:#fff;font-weight:900;padding:20px;text-shadow:0 2px 0 rgba(0,0,0,.2)}
   .note{background:#fffbe6;border:2px dashed #ffb800;border-radius:16px;padding:14px;font-size:14px;font-weight:700;margin-top:14px}
   @media(max-width:560px){.card{padding:20px}.cake{font-size:84px}}
@@ -71,9 +70,8 @@
 
   <section class="card">
     <h2 id="openTitle">🎁 Opening Soon...</h2>
-    <p class="sub" id="countSub">Loading the birthday...</p>
-    <div class="loadbar"><div class="loadfill" id="loadFill"></div><span class="loadpct" id="loadPct">0%</span></div>
-    <p class="center" style="margin-top:16px;font-weight:900" id="loadDays"></p>
+    <p class="sub" id="countSub">Opening on the birthday...</p>
+    <p class="center" style="margin-top:16px;font-weight:900;font-size:22px" id="openDays"></p>
     <p class="center" style="margin-top:8px;font-weight:900" id="dateLine"></p>
   </section>
 
@@ -88,14 +86,10 @@
 
 
   <section class="card">
-    <h2>💛 Why You're The Best</h2>
-    <div class="reasons">
-      <div class="reason"><b>😂 Funniest Person</b>You turn the dullest day into the best one.</div>
-      <div class="reason"><b>🤗 Always There</b>Good days, bad days — you never leave my side.</div>
-      <div class="reason"><b>🌟 Pure Gold Heart</b>Kind, honest, and real. Rare combination.</div>
-      <div class="reason"><b>🎉 Adventure Partner</b>Every plan is 10x better with you in it.</div>
-      <div class="reason"><b>🧠 Smart &amp; Brave</b>You chase what you want, and you get it.</div>
-      <div class="reason"><b>👑 Best Friend Ever</b>Simple. No one else comes close.</div>
+    <h2 class="love-title">Happy Birthday My Love 🎂</h2>
+    <div class="love-box">
+      <p>On your special day, I just want to say that you are one of the most beautiful blessings in my life. Your smile makes my world softer, your presence makes my heart peaceful, and your love makes every day feel special.</p>
+      <p>May God bless you with endless happiness, health, success, love, and every dream your heart silently prays for. I am so lucky to have you. ❤️</p>
     </div>
   </section>
 
@@ -125,30 +119,30 @@ document.getElementById('footer').textContent =
 const bday = new Date(CONFIG.birthday);
 document.getElementById('dateLine').textContent =
   "🎂 Birthday: " + bday.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-document.getElementById('countSub').textContent = `Loading ${CONFIG.name}'s birthday...`;
+document.getElementById('countSub').textContent = `Opening on ${CONFIG.name}'s birthday...`;
 
-/* Loading bar to the birthday — fills over the 30 days before it.
-   On the birthday day it hits 100% and the page opens. */
+/* Opening: before the birthday it says when it opens;
+   on the birthday day it opens with confetti. */
 let opened = false;
-function updateLoading(){
+function updateOpening(){
   const now = new Date(); const diff = bday - now;
-  const start = new Date(bday.getTime() - 30*86400000);
-  let pct = Math.round((now - start) / (bday - start) * 100);
-  pct = Math.max(0, Math.min(100, pct));
-  document.getElementById('loadFill').style.width = pct + '%';
-  document.getElementById('loadPct').textContent = pct + '%';
   if(diff <= 0){
     document.getElementById('openTitle').textContent = "🎉 It's Open — Happy Birthday!";
     document.getElementById('countSub').textContent = `🎉 It's ${CONFIG.name}'s birthday TODAY! 🎉`;
-    document.getElementById('loadDays').textContent = "The birthday is here — enjoy the party! 🎂";
+    document.getElementById('openDays').textContent = "The birthday is here — enjoy the party! 🎂";
     if(!opened){ opened = true; burst(200); }
   } else {
     const days = Math.ceil(diff / 86400000);
-    document.getElementById('loadDays').textContent =
-      days + (days === 1 ? ' day to go' : ' days to go') + ' — opening on the birthday! 🎁';
+    document.getElementById('openDays').textContent =
+      'Opens in ' + days + (days === 1 ? ' day' : ' days') + ' 🎁';
   }
 }
-updateLoading(); setInterval(updateLoading, 60000);
+updateOpening(); setInterval(updateOpening, 60000);
+
+/* Sections pop in one after another */
+document.querySelectorAll('.wrap > header, .wrap > section.card').forEach((el, i) => {
+  el.style.animationDelay = (i * 0.35) + 's';
+});
 
 /* Confetti */
 const cv=document.getElementById('confetti'), ctx=cv.getContext('2d');
