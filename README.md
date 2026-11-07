@@ -9,7 +9,7 @@ Open `index.html` and edit only the `CONFIG` block near the bottom:
 const CONFIG = {
   name: "Bestie",                    // best friend's name
   birthday: "2026-11-20T00:00:00",   // YYYY-MM-DDTHH:MM:SS
-  from: "Hari"
+  from: "Sreehari"
 };
 ```
 
