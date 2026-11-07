@@ -48,9 +48,9 @@ Environment: **Docker**, Port: leave blank (uses `$PORT`).
 - Live countdown to the birthday date in CONFIG
 - Interactive cake: tap candles to blow them out
 - Reasons grid
-- Happy Birthday song that autoplays on load and loops
-  (browsers may block sound until the first tap — then it starts;
-  the button in the header turns it on/off)
+- Custom song (`song.m4a`) that plays only when the 🔊 volume
+  button at the top-right is clicked — click again to pause.
+  It loops while playing.
 - Mobile-friendly, single file
 
 ## Files
