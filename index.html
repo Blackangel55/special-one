@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday! 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--pink:#ff5da2;--yellow:#ffcf3f;--purple:#7c5cff;--blue:#00c2ff;--green:#2ee6a8;--orange:#ff8a3d;--dark:#2b1055}
+  body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#ffe259 0%,#ffa751 25%,#ff5da2 55%,#7c5cff 85%,#00c2ff 100%);background-size:300% 300%;animation:bgShift 18s ease infinite;color:#2b1055;overflow-x:hidden}
+  @keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:99}
+  .balloon{position:fixed;bottom:-180px;font-size:64px;z-index:1;opacity:.9;animation:floatUp linear infinite;pointer-events:none}
+  @keyframes floatUp{to{transform:translateY(-120vh) rotate(12deg)}}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 18px 60px;position:relative;z-index:2}
+  .pill{display:inline-block;background:#fff;border-radius:999px;padding:8px 18px;font-weight:900;box-shadow:0 6px 0 rgba(0,0,0,.12);transform:rotate(-2deg)}
+  header{text-align:center;padding:48px 10px 20px;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.15)}
+  header h1{font-family:'Fredoka',sans-serif;font-size:clamp(44px,9vw,92px);line-height:.95;letter-spacing:-1px}
+  header h1 span{display:inline-block;animation:bounce 1.6s ease-in-out infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+  header p{font-size:clamp(18px,3vw,26px);font-weight:900;margin-top:16px}
+  .card{background:#fff;border-radius:28px;padding:28px;box-shadow:0 12px 0 rgba(0,0,0,.12);margin:26px 0}
+  .card h2{font-family:'Fredoka',sans-serif;font-size:32px;text-align:center;margin-bottom:6px}
+  .card .sub{text-align:center;opacity:.75;font-weight:700;margin-bottom:18px}
+  /* countdown */
+  .count{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center}
+  .count div{background:linear-gradient(135deg,#fff3a3,#ffe259);border-radius:20px;padding:18px 6px;border:3px dashed #ff5da2}
+  .count div:nth-child(2){background:linear-gradient(135deg,#ffd6ec,#ff9ecf)}
+  .count div:nth-child(3){background:linear-gradient(135deg,#d9ccff,#b79cff)}
+  .count div:nth-child(4){background:linear-gradient(135deg,#b8f5ff,#7de3ff)}
+  .count b{font-family:'Fredoka',sans-serif;font-size:clamp(28px,6vw,44px);display:block}
+  .count span{font-weight:900;font-size:13px;letter-spacing:1px;text-transform:uppercase}
+  /* cake */
+  .cake{text-align:center;font-size:110px;line-height:1;cursor:pointer;user-select:none}
+  .candles{font-size:42px;letter-spacing:6px;cursor:pointer}
+  .candles .out{opacity:.25;filter:grayscale(1)}
+  .btn{display:inline-block;border:0;cursor:pointer;font-family:'Fredoka',sans-serif;font-weight:700;font-size:18px;padding:14px 26px;border-radius:999px;background:var(--pink);color:#fff;box-shadow:0 6px 0 #d63d84;transition:.15s}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 #d63d84}
+  .btn.yellow{background:var(--yellow);color:#2b1055;box-shadow:0 6px 0 #d9a400}
+  .btn.purple{background:var(--purple);box-shadow:0 6px 0 #5a3fd6}
+  .center{text-align:center}
+  .btnrow{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .gallery figure{border-radius:20px;overflow:hidden;background:#ffe9f5;box-shadow:0 6px 0 rgba(0,0,0,.1)}
+  .gallery img{width:100%;height:220px;object-fit:cover;display:block;transition:.3s}
+  .gallery img:hover{transform:scale(1.05)}
+  .gallery figcaption{padding:12px 14px;font-weight:900}
+  .gallery figcaption small{display:block;font-weight:700;opacity:.65}
+  /* reasons */
+  .reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .reason{border-radius:20px;padding:20px;font-weight:700}
+  .reason b{font-family:'Fredoka',sans-serif;font-size:20px;display:block;margin-bottom:6px}
+  .reason:nth-child(1){background:#fff3a3}.reason:nth-child(2){background:#ffd6ec}.reason:nth-child(3){background:#d9ccff}.reason:nth-child(4){background:#b8f5ff}.reason:nth-child(5){background:#c8ffe9}.reason:nth-child(6){background:#ffe0c2}
+  /* timeline */
+  .timeline{border-left:4px dashed var(--pink);margin-left:10px;padding-left:22px}
+  .timeline div{margin-bottom:18px;position:relative}
+  .timeline div::before{content:"🎈";position:absolute;left:-38px;top:-2px;background:#fff;border-radius:50%;width:32px;height:32px;display:grid;place-items:center;font-size:16px}
+  .timeline b{font-family:'Fredoka',sans-serif}
+  /* wishes */
+  #wishForm{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+  #wishForm input{flex:1;min-width:220px;padding:14px 16px;border:3px solid #eee;border-radius:999px;font:inherit;font-weight:700;outline:none}
+  #wishForm input:focus{border-color:var(--pink)}
+  #wishes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .wish{background:#fffbe6;border:2px solid #ffe259;border-radius:18px;padding:16px;font-weight:700}
+  footer{text-align:center;color:#fff;font-weight:900;padding:20px;text-shadow:0 2px 0 rgba(0,0,0,.2)}
+  .note{background:#fffbe6;border:2px dashed #ffb800;border-radius:16px;padding:14px;font-size:14px;font-weight:700;margin-top:14px}
+  @media(max-width:560px){.card{padding:20px}.cake{font-size:84px}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+
+<div class="wrap">
+  <header>
+    <span class="pill">🎉 IT'S YOUR DAY! 🎉</span>
+    <h1 id="heroTitle">Happy<br>Birthday!</h1>
+    <p id="heroSub">To my amazing best friend — have the best day ever! 💛</p>
+    <div class="btnrow">
+      <button class="btn yellow" onclick="burst()">🎊 Burst Confetti</button>
+      <button class="btn" onclick="playSong()">🎵 Play Birthday Song</button>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2>⏰ Countdown to the Big Day</h2>
+    <p class="sub" id="countSub">Counting down every second...</p>
+    <div class="count">
+      <div><b id="d">0</b><span>Days</span></div>
+      <div><b id="h">0</b><span>Hours</span></div>
+      <div><b id="m">0</b><span>Minutes</span></div>
+      <div><b id="s">0</b><span>Seconds</span></div>
+    </div>
+    <p class="center" style="margin-top:16px;font-weight:900" id="dateLine"></p>
+  </section>
+
+  <section class="card center">
+    <h2>🎂 Make a Wish!</h2>
+    <p class="sub">Tap a candle to blow it out. Blow them all out and your wish comes true!</p>
+    <div class="candles" id="candles" title="Tap to blow out">🕯️🕯️🕯️🕯️🕯️</div>
+    <div class="cake">🎂</div>
+    <p id="wishMsg" style="font-weight:900;margin-top:10px">5 candles still burning...</p>
+    <div class="btnrow"><button class="btn purple" onclick="relight()">🔥 Light Them Again</button></div>
+  </section>
+
+  <section class="card">
+    <h2>📸 Our Favourite Moments</h2>
+    <p class="sub">Replace these with your real photos — put them in the <b>photos/</b> folder</p>
+    <div class="gallery">
+      <figure><img src="https://picsum.photos/seed/bday1/600/400" alt="Memory 1"><figcaption>Best memories 🎈<small>The laughter never stops</small></figcaption></figure>
+      <figure><img src="https://picsum.photos/seed/bday2/600/400" alt="Memory 2"><figcaption>Partners in crime 😎<small>Through every crazy plan</small></figcaption></figure>
+      <figure><img src="https://picsum.photos/seed/bday3/600/400" alt="Memory 3"><figcaption>Golden days ✨<small>Some moments are priceless</small></figcaption></figure>
+      <figure><img src="https://picsum.photos/seed/bday4/600/400" alt="Memory 4"><figcaption>Always together 💛<small>Best friends forever</small></figcaption></figure>
+    </div>
+    <div class="note">💡 To use your own photos: save them as <b>photos/1.jpg, photos/2.jpg…</b> and change the <b>src</b> in index.html — or just send them to me and I'll swap them in.</div>
+  </section>
+
+  <section class="card">
+    <h2>💛 Why You're The Best</h2>
+    <div class="reasons">
+      <div class="reason"><b>😂 Funniest Person</b>You turn the dullest day into the best one.</div>
+      <div class="reason"><b>🤗 Always There</b>Good days, bad days — you never leave my side.</div>
+      <div class="reason"><b>🌟 Pure Gold Heart</b>Kind, honest, and real. Rare combination.</div>
+      <div class="reason"><b>🎉 Adventure Partner</b>Every plan is 10x better with you in it.</div>
+      <div class="reason"><b>🧠 Smart &amp; Brave</b>You chase what you want, and you get it.</div>
+      <div class="reason"><b>👑 Best Friend Ever</b>Simple. No one else comes close.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🗓️ Our Story So Far</h2>
+    <div class="timeline">
+      <div><b>The day we met</b><br>It started with a hello — and never stopped.</div>
+      <div><b>Inside jokes era</b><br>Too many jokes no one else understands.</div>
+      <div><b>Through thick &amp; thin</b><br>Exams, late nights, big dreams — together.</div>
+      <div><b>Today — your birthday!</b><br>The best chapter yet. Happy birthday, bestie!</div>
+    </div>
+    <p class="center" style="margin-top:10px;font-weight:700;opacity:.7">Edit these lines in index.html to add your real dates &amp; stories.</p>
+  </section>
+
+  <section class="card">
+    <h2>💌 Leave a Birthday Wish</h2>
+    <p class="sub">Type a wish — it appears below instantly!</p>
+    <form id="wishForm" onsubmit="addWish(event)">
+      <input id="wishName" placeholder="Your name" required>
+      <input id="wishText" placeholder="Your birthday wish..." required>
+      <button class="btn" type="submit">Send Wish 💖</button>
+    </form>
+    <div id="wishes"></div>
+  </section>
+
+  <footer id="footer">Made with 💛 by Sreehari — for the best friend in the world</footer>
+</div>
+
+<script>
+/* ============================================================
+   ✏️ EDIT ONLY THIS PART — then redeploy, no other code needed
+   ============================================================ */
+const CONFIG = {
+  name: "Bestie",              // <-- best friend's name
+  birthday: "2026-11-20T00:00:00", // <-- birthday: YYYY-MM-DDTHH:MM:SS
+  from: "Sreehari"             // <-- your name
+};
+/* ============================================================ */
+
+document.title = `Happy Birthday ${CONFIG.name}! 🎉`;
+document.getElementById('heroTitle').innerHTML =
+  `Happy<br>Birthday<br><span style="color:#ffcf3f">${CONFIG.name}!</span>`;
+document.getElementById('heroSub').textContent =
+  `To my amazing best friend ${CONFIG.name} — have the best day ever! 💛`;
+document.getElementById('footer').textContent =
+  `Made with 💛 by ${CONFIG.from} — for the best friend in the world`;
+const bday = new Date(CONFIG.birthday);
+document.getElementById('dateLine').textContent =
+  "🎂 Birthday: " + bday.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+document.getElementById('countSub').textContent = `Counting down to ${CONFIG.name}'s birthday...`;
+
+/* Countdown */
+function tick(){
+  const now = new Date(); let diff = bday - now;
+  if(diff <= 0){ document.getElementById('countSub').textContent = `🎉 It's ${CONFIG.name}'s birthday TODAY! 🎉`;
+    diff = 0; }
+  const d=Math.floor(diff/86400000), h=Math.floor(diff/3600000)%24,
+        m=Math.floor(diff/60000)%60, s=Math.floor(diff/1000)%60;
+  document.getElementById('d').textContent=d; document.getElementById('h').textContent=h;
+  document.getElementById('m').textContent=m; document.getElementById('s').textContent=s;
+}
+tick(); setInterval(tick,1000);
+
+/* Confetti */
+const cv=document.getElementById('confetti'), ctx=cv.getContext('2d');
+let parts=[];
+function size(){cv.width=innerWidth;cv.height=innerHeight} size(); addEventListener('resize',size);
+const colors=['#ff5da2','#ffcf3f','#7c5cff','#00c2ff','#2ee6a8','#ff8a3d'];
+function burst(n=140){
+  for(let i=0;i<n;i++) parts.push({x:innerWidth/2+(Math.random()-.5)*300,y:innerHeight/3,vx:(Math.random()-.5)*12,vy:Math.random()*-11-3,s:Math.random()*9+5,c:colors[i%colors.length],r:Math.random()*Math.PI,vr:(Math.random()-.5)*.3});
+}
+(function loop(){ ctx.clearRect(0,0,cv.width,cv.height);
+  parts=parts.filter(p=>p.y<innerHeight+20);
+  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.28;p.r+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);ctx.restore()});
+  requestAnimationFrame(loop); })();
+setTimeout(()=>burst(120),600); setInterval(()=>burst(25),4500);
+
+/* Balloons */
+['🎈','🎈','🎈','🎈','🎈','✨'].forEach((e,i)=>{
+  const b=document.createElement('div'); b.className='balloon'; b.textContent=e;
+  b.style.left=(8+i*16)+'%'; b.style.animationDuration=(9+i*2)+'s'; b.style.animationDelay=(i*1.4)+'s';
+  document.body.appendChild(b);
+});
+
+/* Cake candles */
+let lit=5;
+const candlesEl=document.getElementById('candles');
+function renderCandles(){
+  candlesEl.innerHTML = '🕯️'.repeat(lit) + '<span class="out">'+'🕯️'.repeat(5-lit)+'</span>';
+  document.getElementById('wishMsg').textContent =
+    lit===0 ? "✨ All candles out! Your wish is on its way — Happy Birthday! ✨"
+            : lit===5 ? "5 candles still burning..." : `${lit} candle${lit>1?'s':''} still burning...`;
+  if(lit===0) burst(200);
+}
+candlesEl.onclick=()=>{ if(lit>0){lit--; renderCandles();} };
+function relight(){ lit=5; renderCandles(); }
+renderCandles();
+
+/* Wishes (saved in this browser only) */
+const seed=[{n:"Sreehari",t:"Happy birthday! May this year bring you everything you wished for. 🎂"},
+            {n:"Your Bestie Squad",t:"Stay awesome, stay smiling. Best friends forever! 💛"}];
+let wishes=[]; try{wishes=JSON.parse(localStorage.getItem('bday-wishes'))||seed}catch(e){wishes=seed}
+function renderWishes(){
+  document.getElementById('wishes').innerHTML=wishes.map(w=>`<div class="wish">“${w.t}”<br><small>— ${w.n}</small></div>`).join('');
+}
+function addWish(e){ e.preventDefault();
+  const n=document.getElementById('wishName').value.trim(), t=document.getElementById('wishText').value.trim();
+  if(!n||!t) return; wishes.unshift({n,t}); localStorage.setItem('bday-wishes',JSON.stringify(wishes));
+  renderWishes(); e.target.reset(); burst(80);
+}
+renderWishes();
+
+/* Happy Birthday melody (WebAudio, no file needed) */
+function playSong(){
+  const notes=[[523,.4],[523,.4],[587,.8],[523,.8],[698,.8],[659,1.6],[523,.4],[523,.4],[587,.8],[523,.8],[784,.8],[698,1.6]];
+  const ac=new (window.AudioContext||window.webkitAudioContext)(); let t=ac.currentTime;
+  notes.forEach(([f,d])=>{ const o=ac.createOscillator(), g=ac.createGain();
+    o.frequency.value=f; o.type='triangle'; o.connect(g); g.connect(ac.destination);
+    g.gain.setValueAtTime(.18,t); g.gain.exponentialRampToValueAtTime(.001,t+d);
+    o.start(t); o.stop(t+d); t+=d; });
+}
+</script>
+</body>
+</html>
