@@ -48,9 +48,11 @@ Environment: **Docker**, Port: leave blank (uses `$PORT`).
 - Live countdown to the birthday date in CONFIG
 - Interactive cake: tap candles to blow them out
 - Reasons grid
-- Custom song (`song.m4a`) that plays only when the 🔊 volume
-  button at the top-right is clicked — click again to pause.
-  It loops while playing.
+- Custom song (`song.m4a`) that tries to autoplay on load and
+  loops. Browsers block audible autoplay until the first tap /
+  click / keypress, so it also starts on that first interaction
+  (including the phone volume keys) or on the 🔊 volume button
+  at the top-right — click it again to pause.
 - Mobile-friendly, single file
 
 ## Files

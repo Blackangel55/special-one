@@ -56,7 +56,7 @@
 </style>
 </head>
 <body>
- <audio id="song" src="song.m4a" loop preload="auto"></audio>
+ <audio id="song" src="song.m4a" autoplay loop preload="auto"></audio>
 <button id="volBtn" class="vol-btn" onclick="toggleVolume()" title="Play the song">🔇</button>
 
 <canvas id="confetti"></canvas>
@@ -69,7 +69,7 @@
     <div class="btnrow">
       <button class="btn yellow" onclick="burst()">🎊 Burst Confetti</button>
     </div>
-    <p id="musicHint" style="font-size:15px;margin-top:10px;opacity:.9">Tap the 🔊 button at the top-right to play the song.</p>
+    <p id="musicHint" style="font-size:15px;margin-top:10px;opacity:.9">Song plays automatically — if your browser blocks it, tap the 🔊 button or tap anywhere once.</p>
   </header>
 
   <section class="card">
@@ -182,17 +182,32 @@ function relight(){ lit=5; renderCandles(); }
 renderCandles();
 
 const audio = document.getElementById('song');
-/* Song plays ONLY when the volume button is clicked. Click again to pause. */
-function toggleVolume(){
+let manualPause = false;
+function syncVolBtn(){
   const btn = document.getElementById('volBtn');
+  btn.textContent = audio.paused ? '🔇' : '🔊';
+  btn.classList.toggle('on', !audio.paused);
+}
+audio.addEventListener('play', syncVolBtn);
+audio.addEventListener('pause', syncVolBtn);
+/* Try to play on load. Browsers block audible autoplay until the visitor
+   interacts, so the first tap / click / keypress — including the phone's
+   volume keys, which fire a key event — unlocks it. That is why the song
+   used to start only when the volume buttons were pressed. */
+function tryPlay(){ if(!manualPause) audio.play().catch(() => {}); }
+window.addEventListener('load', () => { setTimeout(tryPlay, 300); });
+['pointerdown','touchstart','keydown','click'].forEach(ev =>
+  window.addEventListener(ev, () => { tryPlay(); }, {once:true}));
+function toggleVolume(){
   if(audio.paused){
+    manualPause = false;
     audio.play().catch(() => {});
-    btn.textContent = '🔊'; btn.classList.add('on');
     const hint = document.getElementById('musicHint'); if(hint) hint.style.display = 'none';
   } else {
+    manualPause = true;
     audio.pause();
-    btn.textContent = '🔇'; btn.classList.remove('on');
   }
+  syncVolBtn();
 }
 
 </script>
