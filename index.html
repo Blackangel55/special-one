@@ -75,7 +75,7 @@
     <p id="musicHint" style="font-size:15px;margin-top:10px;opacity:.9">Song plays automatically — if your browser blocks it, tap the 🔊 button or tap anywhere once.</p>
   </header>
   <div class="dots" id="dots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
-  <p id="tapHint" class="tap-hint">👆 Tap the card to continue</p>
+  <p id="tapHint" class="tap-hint">👉 Tap Next to continue</p>
 
   <section class="card">
     <h2 id="openTitle">🎁 Opening Soon...</h2>
@@ -151,8 +151,8 @@ function updateOpening(){
 }
 updateOpening(); setInterval(updateOpening, 60000);
 
-/* One section at a time: tap the card (or Next) to go on, it vanishes
-   and the next one pops in. Taps on the candles / buttons don't advance. */
+/* One section at a time: only the Next button moves on — the old
+   section vanishes and the next one pops in. Tapping the card does nothing. */
 const cards = [...document.querySelectorAll('.wrap > section.card')];
 let current = 0;
 function showSection(i){
@@ -168,10 +168,6 @@ function nextSection(e){
   cards[current].classList.add('vanish');
   setTimeout(() => showSection(current + 1), 300);
 }
-cards.forEach(c => c.addEventListener('click', e => {
-  if(e.target.closest('button, .candles, .cake, a, input')) return;
-  nextSection();
-}));
 showSection(0);
 
 /* Confetti */
