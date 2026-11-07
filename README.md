@@ -18,7 +18,7 @@ const CONFIG = {
 
 ## 2. Deploy on Render (free)
 Option A — from GitHub (recommended):
-1. Create a GitHub repo, push these files (`index.html`, `render.yaml`, `README.md`, `photos/`).
+1. Create a GitHub repo, push these files (`index.html`, `render.yaml`, `README.md`).
 2. Render dashboard → **New + → Static Site** → connect the repo.
 3. Render auto-detects `render.yaml`. Publish Directory: `.`
    Build Command: leave as-is. Click **Create Static Site**.
@@ -57,4 +57,3 @@ Environment: **Docker**, Port: leave blank (uses `$PORT`).
 - `index.html` — the whole site
 - `render.yaml` — tells Render it's a static site
 - `Dockerfile` + `nginx.conf.template` — nginx container, `$PORT`-aware
-- `photos/` — kept for the Docker build (`.gitkeep` only); no longer shown on the page
