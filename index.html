@@ -149,7 +149,10 @@ function updateOpening(){
       'Opens in ' + days + (days === 1 ? ' day' : ' days') + ' 🎁';
   }
 }
-updateOpening(); setInterval(updateOpening, 60000);
+/* updateOpening() is called after the confetti code below, not here:
+   on the birthday it calls burst(), which needs `parts` and `colors`
+   — both are defined further down, so calling it here crashed the
+   whole script on the birthday day and no section ever showed. */
 
 /* One section at a time: only the Next button moves on — the old
    section vanishes and the next one pops in. Tapping the card does nothing. */
@@ -183,6 +186,10 @@ function burst(n=140){
   parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.28;p.r+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);ctx.restore()});
   requestAnimationFrame(loop); })();
 setTimeout(()=>burst(120),600); setInterval(()=>burst(25),4500);
+
+/* Now confetti (parts/colors/burst) exists, so it is safe to run this —
+   on the birthday day it bursts confetti and flips the opening card. */
+updateOpening(); setInterval(updateOpening, 60000);
 
 /* Balloons */
 ['🎈','🎈','🎈','🎈','🎈','✨'].forEach((e,i)=>{
