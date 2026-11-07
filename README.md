@@ -45,7 +45,8 @@ Environment: **Docker**, Port: leave blank (uses `$PORT`).
 
 ## What's inside
 - Animated gradient + floating balloons + auto confetti
-- Live countdown to the birthday date in CONFIG
+- Loading bar to the birthday date in CONFIG — fills over the
+  30 days before it, hits 100% and opens on the birthday day
 - Interactive cake: tap candles to blow them out
 - Reasons grid
 - Custom song (`song.m4a`) that tries to autoplay on load and

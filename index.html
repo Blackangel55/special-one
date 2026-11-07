@@ -27,14 +27,11 @@
   .card{background:#fff;border-radius:28px;padding:28px;box-shadow:0 12px 0 rgba(0,0,0,.12);margin:26px 0}
   .card h2{font-family:'Fredoka',sans-serif;font-size:32px;text-align:center;margin-bottom:6px}
   .card .sub{text-align:center;opacity:.75;font-weight:700;margin-bottom:18px}
-  /* countdown */
-  .count{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center}
-  .count div{background:linear-gradient(135deg,#fff3a3,#ffe259);border-radius:20px;padding:18px 6px;border:3px dashed #ff5da2}
-  .count div:nth-child(2){background:linear-gradient(135deg,#ffd6ec,#ff9ecf)}
-  .count div:nth-child(3){background:linear-gradient(135deg,#d9ccff,#b79cff)}
-  .count div:nth-child(4){background:linear-gradient(135deg,#b8f5ff,#7de3ff)}
-  .count b{font-family:'Fredoka',sans-serif;font-size:clamp(28px,6vw,44px);display:block}
-  .count span{font-weight:900;font-size:13px;letter-spacing:1px;text-transform:uppercase}
+  /* loading bar to the birthday */
+  .loadbar{position:relative;height:34px;background:#f1e8ff;border:3px solid #7c5cff;border-radius:999px;overflow:hidden}
+  .loadfill{height:100%;width:0%;border-radius:999px;background:repeating-linear-gradient(-45deg,#ff5da2 0 16px,#ffcf3f 16px 32px,#7c5cff 32px 48px,#00c2ff 48px 64px);background-size:90px 100%;animation:stripes 1s linear infinite;transition:width 1s ease}
+  @keyframes stripes{to{background-position:90px 0}}
+  .loadpct{position:absolute;inset:0;display:grid;place-items:center;font-family:'Fredoka',sans-serif;font-weight:700;font-size:18px;color:#2b1055;text-shadow:0 1px 0 #fff}
   /* cake */
   .cake{text-align:center;font-size:110px;line-height:1;cursor:pointer;user-select:none}
   .candles{font-size:42px;letter-spacing:6px;cursor:pointer}
@@ -73,15 +70,11 @@
   </header>
 
   <section class="card">
-    <h2>⏰ Countdown to the Big Day</h2>
-    <p class="sub" id="countSub">Counting down every second...</p>
-    <div class="count">
-      <div><b id="d">0</b><span>Days</span></div>
-      <div><b id="h">0</b><span>Hours</span></div>
-      <div><b id="m">0</b><span>Minutes</span></div>
-      <div><b id="s">0</b><span>Seconds</span></div>
-    </div>
-    <p class="center" style="margin-top:16px;font-weight:900" id="dateLine"></p>
+    <h2 id="openTitle">🎁 Opening Soon...</h2>
+    <p class="sub" id="countSub">Loading the birthday...</p>
+    <div class="loadbar"><div class="loadfill" id="loadFill"></div><span class="loadpct" id="loadPct">0%</span></div>
+    <p class="center" style="margin-top:16px;font-weight:900" id="loadDays"></p>
+    <p class="center" style="margin-top:8px;font-weight:900" id="dateLine"></p>
   </section>
 
   <section class="card center">
@@ -132,19 +125,30 @@ document.getElementById('footer').textContent =
 const bday = new Date(CONFIG.birthday);
 document.getElementById('dateLine').textContent =
   "🎂 Birthday: " + bday.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-document.getElementById('countSub').textContent = `Counting down to ${CONFIG.name}'s birthday...`;
+document.getElementById('countSub').textContent = `Loading ${CONFIG.name}'s birthday...`;
 
-/* Countdown */
-function tick(){
-  const now = new Date(); let diff = bday - now;
-  if(diff <= 0){ document.getElementById('countSub').textContent = `🎉 It's ${CONFIG.name}'s birthday TODAY! 🎉`;
-    diff = 0; }
-  const d=Math.floor(diff/86400000), h=Math.floor(diff/3600000)%24,
-        m=Math.floor(diff/60000)%60, s=Math.floor(diff/1000)%60;
-  document.getElementById('d').textContent=d; document.getElementById('h').textContent=h;
-  document.getElementById('m').textContent=m; document.getElementById('s').textContent=s;
+/* Loading bar to the birthday — fills over the 30 days before it.
+   On the birthday day it hits 100% and the page opens. */
+let opened = false;
+function updateLoading(){
+  const now = new Date(); const diff = bday - now;
+  const start = new Date(bday.getTime() - 30*86400000);
+  let pct = Math.round((now - start) / (bday - start) * 100);
+  pct = Math.max(0, Math.min(100, pct));
+  document.getElementById('loadFill').style.width = pct + '%';
+  document.getElementById('loadPct').textContent = pct + '%';
+  if(diff <= 0){
+    document.getElementById('openTitle').textContent = "🎉 It's Open — Happy Birthday!";
+    document.getElementById('countSub').textContent = `🎉 It's ${CONFIG.name}'s birthday TODAY! 🎉`;
+    document.getElementById('loadDays').textContent = "The birthday is here — enjoy the party! 🎂";
+    if(!opened){ opened = true; burst(200); }
+  } else {
+    const days = Math.ceil(diff / 86400000);
+    document.getElementById('loadDays').textContent =
+      days + (days === 1 ? ' day to go' : ' days to go') + ' — opening on the birthday! 🎁';
+  }
 }
-tick(); setInterval(tick,1000);
+updateLoading(); setInterval(updateLoading, 60000);
 
 /* Confetti */
 const cv=document.getElementById('confetti'), ctx=cv.getContext('2d');
