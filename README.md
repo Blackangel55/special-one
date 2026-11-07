@@ -32,6 +32,20 @@ Render dashboard → **New + → Static Site** → **Deploy from a public Git UR
 or use the Render CLI / drag-and-drop via a repo — Render Static Sites
 need a Git repo, so Option A is the normal path.
 
+## 3. Run with Docker (optional)
+The `Dockerfile` serves the site with nginx. It listens on `$PORT`
+(Render sets this automatically; defaults to 80 locally).
+
+```bash
+docker build -t birthday-website .
+docker run -p 8080:80 birthday-website
+# open http://localhost:8080
+```
+
+On Render as a Docker Web Service instead of a Static Site:
+Render dashboard → **New + → Web Service** → connect this repo →
+Environment: **Docker**, Port: leave blank (uses `$PORT`).
+
 ## What's inside
 - Animated gradient + floating balloons + auto confetti
 - Live countdown to the birthday date in CONFIG
@@ -43,4 +57,5 @@ need a Git repo, so Option A is the normal path.
 ## Files
 - `index.html` — the whole site
 - `render.yaml` — tells Render it's a static site
+- `Dockerfile` + `nginx.conf.template` — nginx container, `$PORT`-aware
 - `photos/` — put real photos here
