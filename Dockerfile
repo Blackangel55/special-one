@@ -5,7 +5,7 @@
 FROM nginx:alpine
 
 COPY index.html /usr/share/nginx/html/index.html
-COPY photos/ /usr/share/nginx/html/photos/
+COPY song.mp3 /usr/share/nginx/html/song.mp3
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 
 ENV PORT=80
