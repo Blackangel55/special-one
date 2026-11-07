@@ -1,2 +1,0 @@
-# Keeps the empty photos/ folder in Git, so Docker's COPY photos/ finds it.
-# Put real photos here as 1.jpg, 2.jpg, ... and update index.html to use them.
